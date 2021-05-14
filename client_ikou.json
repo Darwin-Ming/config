@@ -1,0 +1,27 @@
+{
+    "run_type": "client",
+    "local_addr": "0.0.0.0",
+    "local_port": 1088,
+    "remote_addr": "xg.ikou.fun",
+    "remote_port": 443,
+    "password": ["65b66e6a9977"],
+    "log_level": 0,
+    "mux": {
+        "enable": true,
+        "concurrency": 16,
+        "idle_timeout": 60
+    },
+    "router": {
+        "enabled": true,
+        "geoip": "/usr/local/bin/geoip.dat",
+        "geosite": "/usr/local/bin/geosite.dat",
+        "bypass": [
+            "geoip:cn",
+            "geoip:private",
+            "geosite:cn",
+            "geosite:geolocation-cn"
+        ],
+        "block": ["geosite:category-ads"],
+        "proxy": ["geosite:geolocation-!cn"]
+    }
+}
