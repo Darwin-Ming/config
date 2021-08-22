@@ -1,0 +1,71 @@
+{
+    "atomKeymap.promptV3Features": true,
+
+    "workbench.iconTheme": "material-icon-theme",
+
+    // Controls the font size in pixels of the terminal.
+    "terminal.integrated.fontSize": 14,
+
+    // Controls auto save of dirty files. Accepted values:  'off', 'afterDelay', 'onFocusChange' (editor loses focus), 'onWindowChange' (window loses focus). If set to 'afterDelay', you can configure the delay in 'files.autoSaveDelay'.
+    "files.autoSave": "onFocusChange",
+
+    // Controls the cursor style, accepted values are 'block', 'block-outline', 'line', 'line-thin', 'underline' and 'underline-thin'
+    "editor.cursorStyle": "line",
+
+    // Controls if the minimap is shown
+    "editor.minimap.enabled": false,
+     
+    // Render vertical rulers after a certain number of monospace characters. Use multiple values for multiple rulers. No rulers are drawn if array is empty
+    "editor.rulers": [
+        80,
+        100
+    ],
+    "workbench.sideBar.location": "left",
+
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "workbench.activityBar.visible": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "extensions.ignoreRecommendations": false,
+    "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+    "javascript.validate.enable": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "breadcrumbs.enabled": true,
+    "editor.fontFamily": "Monaco, monospace, 'Courier New', Menlo",
+
+    "rest-client.previewResponseInUntitledDocument": true,
+    
+    "workbench.colorCustomizations": {
+        "activityBarBadge.background": "#fff",
+        "activityBar.border": "#897",
+        "activityBarBadge.foreground": "#ff0000",
+        "editorIndentGuide.background": "#999",
+        "editorWhitespace.foreground": "#797",
+    },
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "window.zoomLevel": 0,
+    "prettier.eslintIntegration": true,
+    "jshint.nodePath": "/usr/local/lib/node_modules",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.fontSize": 13,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "typescript.surveys.enabled": false,
+    "editor.lineNumbers": "relative",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "java.semanticHighlighting.enabled": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+
+    // "workbench.editor.showTabs": false,
+}
