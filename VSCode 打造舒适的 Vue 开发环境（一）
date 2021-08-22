@@ -1,0 +1,224 @@
+# VSCode 打造舒适的 Vue 开发环境（一）
+## 前言
+条条道路通罗马。作为一名 Programmer 要满足策划大大的要求，编码方式、代码风格千万种。良好的代码风格，能够让人赏心悦目，有助于快速定位bug。尤其是处于一个开发团队中，统一代码风格，不仅是造福他人，也是方便自己。秉承代码首先是给人看，其次才是机器的原则，此文诞生。
+
+## 何为舒适的 Vue 开发环境
+<!-- ### TODO: 解释何为舒适的开发环境 -->
+想遵循良好的代码风格，又想不在代码格式浪费大量的时间。每当按下 `Command + s` 时，自动格式化满足要求代码。js 生态环境已经非常完善，只有想不到，没有办不到。借助 VSCode + Prettier + ESLint 能达到目标。
+<!-- TODO: 陪GIF图 -->
+ps: 本文只针对 Vue 开发（js + vue），其他平台只供参考。
+
+---
+
+### ESLint 介绍
+官方介绍：可组装的 JavaScript 和 JSX 检查工具. ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，它的目标是保证代码的一致性和避免错误。
+
+白话：为 js 提供代码质量检测、代码风格检测并报告错误。并提供一定的自动修复功能.
+- 代码质量检测 (可能潜在的bug)
+    - js 语法错误
+    - 变量在使用前是否声明
+    - switch 正确使用
+    - ......
+- 代码风格检测 (与程序运行对错无关，只为人更容易理解，书写统一)
+    - HTML标签属性是否应该换行
+    - if 是否要加 {}
+    - 代码缩进应该 Tab、2空格、4空格
+    - 组建生命周期函数应该如何排序
+    - 声明的变量为使用
+    - ......
+
+[ESlint Official Website 中文](https://cn.eslint.org/)
+
+#### 安装 && 配置
+1. 作为开发依赖安装。``` npm install eslint --save-dev ```
+2. 创建 `.eslintrc.js` 配置文件。 ``` npx eslint --init ```
+
+    [供参考](https://github.com/Darwin-Ming/config/blob/main/.eslintrc.js)
+    ```js
+    {
+        ......
+        // 继承[]中配置
+        extends: [
+            // 主要负责 js 风格，偏爱 airbnb 配置，可替换其他配置
+            'airbnb-base',
+            // vue 官方提供。vue 专享，统一 vue 代码风格
+            // 'plugin:vue/vue3-recommended', Use this if you are using Vue.js 3.x.
+            'plugin:vue/recommended',
+        ],
+        parser: 'vue-eslint-parser',
+        parserOptions: {
+            parser: 'babel-eslint',
+            ecmaVersion: 12,
+            sourceType: 'module',
+        },
+        plugins: ['vue'],
+        rules: {
+            // "off"   or 0 - 关闭规则
+            // "warn"  or 1 - 将规则视为一个警告（不会影响退出码）
+            // "error" or 2 - 将规则视为一个错误 (退出码为1)
+            // https://cn.eslint.org/docs/rules/indent
+            indent: ['error', 4],
+            // https://cn.eslint.org/docs/rules/quotes
+            quotes: ['error', 'single'],
+            // https://eslint.bootcss.com/docs/rules/semi
+            // ;
+            semi: ['error', 'always'],
+            // https://cn.eslint.org/docs/rules/comma-dangle
+            'comma-dangle': ['error', 'always-multiline'],
+            // https://eslint.vuejs.org/rules/
+            'vue/html-indent': [
+                'error',
+                4,
+                {
+                    attribute: 1,
+                    baseIndent: 1,
+                    closeBracket: 0,
+                    alignAttributesVertically: true,
+                    ignores: [],
+                },
+            ],
+            'vue/html-closing-bracket-newline': [
+                'error',
+                {
+                    singleline: 'never',
+                    multiline: 'always',
+                },
+            ],
+            ......
+        }
+    }
+    ```
+#### 命令行下使用
+
+```npx eslint [target files/directory]```
+
+---
+
+### Prettier
+#### Prettier 介绍
+只负责代码风格报错, 并提供自动修复功能. 主要用于统一代码风格. 但 Prettier 可配置项不够灵活，极少可配置。
+
+[Prettier Official Website](https://prettier.io/)
+
+#### Install
+
+1. ``` npm install --save-dev --save-exact prettier ```
+2. 创建 ``` .prettierrc.json ```
+    ```jsonc
+    // 参考
+    // 建议使用 .json 文件，有智能提示
+    {
+        "endOfLine": "lf",
+        "tabWidth": 4,
+        "useTabs": false,
+        "singleQuote": true
+    }
+    ```
+3. 创建忽略文件, 不需要检测的文件. ``` .prettierignore ``` 与 .gitignore 文件作用类似
+
+#### 命令行下使用
+- 检测目标代码风格是否有问题
+
+    ```npx prettier --check [target file/directory]```
+- 检测并修复问题
+
+    `npx prettier --write [target file/directory]`
+
+---
+至此, 可以在终端下随意使用 Prettier、ESLint, 但常用编辑器是 VSCode, 想在 VSCode Editor 中随意使用。
+
+### VSCode + Prettier + ESLint
+1. 在 VSCode 中安装插件 ESLint、Prettier
+2. window 失去焦点时，自动格式化保存. 编辑 VSCode 配置文件
+```json
+{
+    // settings.json
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    "[vue]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    },
+
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+}
+```
+
+### VSCode + Prettier + ESLint 的问题
+它俩均有发现代码风格问题，并修复功能。两者之间势必会有冲突，比如：Prettier 认为应该2个空格缩进，ESLint 认为应该4个空格，等等。。。 
+
+在 VSCode 中表现为 ESLint 先格式化代码风格，Prettier 又格式化代码风格, 最后 VSCode 中 ESLint 报错。
+
+#### 解决方案
+1. 两者均使用一样的配置, 通过配置文件可以完成
+
+    如前面：缩进都使用 4 个空格。
+    ```js
+    // .eslintrc.js
+    {
+        ......
+        rules: {
+            indent: ['error', 4],
+        }
+        ......
+    }
+    ```
+    ```json
+    // .pretterrc.json
+    {
+        "tabWidth": 4,
+        "useTabs": false,
+    }
+    ```
+2. 遵从 Prettier, 关闭冲突中 ESLint 配置.
+    1. 通过 ESLint 插件 `eslint-plugin-prettier`
+
+        安装命令 ```npm install --save-dev eslint-plugin-prettier --save-exact prettier```
+
+    2. 然后在 .eslintrc.js 文件中配置
+        ```js
+        {
+            plugins: ["prettier"],
+            rules: {
+                "prettier/prettier": "error"
+            }
+        }
+        ```
+        ps: 以上两步让 ESLint 可以使用 Prettier 的功能。
+
+    3. 关闭冲突中 ESLint 的配置 
+        1. 安装配置 `npm install --save-dev eslint-config-prettier`
+        2. 修改 `.eslintrc.js` 文件
+            ```js
+            {
+                ......
+                extends: [..., "plugin:prettier/recommended"]
+                ......
+            }
+            ```
+        [eslint-plugin-prettier Official Website](https://github.com/prettier/eslint-plugin-prettier)
+
+3. 遵从 ESLint, 直接使用
+    - 在 VSCode 中可以安装 `Prettier ESLint` 插件, 使用 ESLint 风格来格式化代码
+    ps：prettier、prettier-eslint 两个 npm 包为必要的
+
+---
+
+### Extra
+- js 代码风格偏爱 Prettier
+- vue 文件代码风格便爱 ESLint + eslint-plugin-vue。 Prettier 格式化 Vue 也很完美，但是在格式化 HTML 时有点点小瑕疵不能忍
+- [eslint-plugin-vue Official Website](https://eslint.vuejs.org/)
