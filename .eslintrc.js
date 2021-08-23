@@ -99,5 +99,20 @@ module.exports = {
                 ignores: ['pre', 'textarea', ...OTHER_INLINE_ELEMENTS],
             },
         ],
+        'no-param-reassign': [
+            'error',
+            { props: true, ignorePropertyModificationsFor: ['state'] },
+        ],
+    },
+    settings: {
+        'import/resolver': {
+            alias: {
+                map: [
+                    ['@', './src'],
+                    ['~', './src/js'],
+                ],
+                extensions: ['.js', '.vue'],
+            },
+        },
     },
 };
